@@ -1,0 +1,74 @@
+
+En este archivo ORG se coloca mi configuracion de Emacs que utilizo para windows, el cual solo es utilizado para temas relacionados al ORG mode
+
+* Load package and repositories
+
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+
+  (require 'package)
+     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+		       ("melpa" . "https://melpa.org/packages/")
+		       ("org" . "https://orgmode.org/elpa/")))
+  (unless package-archive-contents
+    (package-refresh-contents))
+#+END_SRC
+
+* Default folder
+#+BEGIN_SRC emacs-lisp
+(setq default-directory "c:/Users/daniel/Documents/")
+#+END_SRC
+
+* Disable GUI default emacs tools  
+
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode -1)
+  (toggle-scroll-bar -1)
+  (tool-bar-mode -1)
+#+END_SRC
+
+
+* Add use-package
+
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (use-package delight :ensure t)
+  (use-package use-package-ensure-system-package :ensure t)
+#+END_SRC
+
+
+* Evil mode
+
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'evil)
+     (package-install 'evil))
+  (unless (package-installed-p 'undo-tree)
+     (package-install 'undo-tree))
+
+  (require 'evil)
+  (require 'undo-tree)
+  (evil-mode 1)
+  (global-undo-tree-mode)
+  (evil-set-undo-system 'undo-tree)
+#+END_SRC
+
+
+* Theme
+
+#+BEGIN_SRC emacs-lisp
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+#+END_SRC
